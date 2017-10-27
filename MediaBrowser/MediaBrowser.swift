@@ -16,7 +16,7 @@ func floorcgf(x: CGFloat) -> CGFloat {
 }
 
 /// MediaBrwoser is based in UIViewController, UIScrollViewDelegate and UIActionSheetDelegate. So you can push, or make modal.
-public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDelegate {
+open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDelegate {
     private let padding = CGFloat(10.0)
 
     // Data
@@ -317,7 +317,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
         }
     }
     /// didReceiveMemoryWarning
-    public override func didReceiveMemoryWarning() {
+    open override func didReceiveMemoryWarning() {
         // Release any cached data, images, etc that aren't in use.
         releaseAllUnderlyingPhotos(preserveCurrent: true)
         recycledPages.removeAll(keepingCapacity: false)
@@ -329,7 +329,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
     //MARK: - View Loading
 
     /// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         // Validate grid settings
         if startOnGrid {
             enableGrid = true
@@ -419,7 +419,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
      - Parameter size: size
      - Parameter coordinator: UIViewControllerTransitionCoordinator
      */
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animate(alongsideTransition: nil) { _ in
             self.toolbar.frame = self.frameForToolbar
         }
@@ -427,7 +427,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
         super.viewWillTransition(to: size, with: coordinator)
     }
     
-    func performLayout() {
+    open func performLayout() {
         // Setup
         performingLayout = true
         let photos = numberOfMedias
@@ -568,7 +568,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
      
      - Parameter animated: Bool
      */
-    public override func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         // Super
         super.viewWillAppear(animated)
         
@@ -620,7 +620,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
      
      - Parameter animated: Bool
      */
-    public override func viewDidAppear(_ animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewIsActive = true
         
@@ -641,7 +641,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
      
      - Parameter animated: Bool
      */
-    public override func viewWillDisappear(_ animated: Bool) {
+    open override func viewWillDisappear(_ animated: Bool) {
         // Detect if rotation occurs while we're presenting a modal
         pageIndexBeforeRotation = currentPageIndex
         
@@ -685,7 +685,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
      
      - Parameter parent: UIViewController
      */
-    public override func willMove(toParentViewController parent: UIViewController?) {
+    open override func willMove(toParentViewController parent: UIViewController?) {
         if parent != nil && hasBelongedToViewController {
             fatalError("MediaBrowser Instance Reuse")
         }
@@ -696,7 +696,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
      
      - Parameter parent: UIViewController
      */
-    public override func didMove(toParentViewController parent: UIViewController?) {
+    open override func didMove(toParentViewController parent: UIViewController?) {
         if nil == parent {
             hasBelongedToViewController = true
         }
@@ -755,7 +755,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
 
     //MARK: - Layout
     /// viewWillLayoutSubviews
-    public override func viewWillLayoutSubviews() {
+    open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         layoutVisiblePages()
     }
@@ -823,12 +823,12 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
 
     //MARK: - Rotation
     /// supported interface orientations
-    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
     }
 
     /// will rotate to interfaceOrientation
-    public override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+    open override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         // Remember page index before rotation
         pageIndexBeforeRotation = currentPageIndex
         rotating = true
@@ -841,7 +841,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
     }
     
     /// will animate rotation
-    public override func willAnimateRotation(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+    open override func willAnimateRotation(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         // Perform layout
         currentPageIndex = pageIndexBeforeRotation
         
@@ -853,7 +853,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
     }
     
     /// did rotate
-    public override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+    open override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         rotating = false
         // Ensure nav bar isn't re-displayed
         if let navi = navigationController, areControlsHidden {
@@ -863,11 +863,11 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
     }
 
     //MARK: - Data
-    var currentIndex: Int {
+    public var currentIndex: Int {
         return currentPageIndex
     }
 
-    func reloadData() {
+    public func reloadData() {
         // Reset
         mediaCount = -1
         
@@ -1943,7 +1943,7 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
     }
 
     /// prefersStatusBarHidden
-    public override var prefersStatusBarHidden: Bool {
+    open override var prefersStatusBarHidden: Bool {
         if !leaveStatusBarAlone {
             return statusBarShouldBeHidden
         }
@@ -1952,11 +1952,11 @@ public class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheet
     }
     
     /// preferredStatusBarUpdateAnimation
-    public override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+    open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         return .slide
     }
 
-    public override var preferredStatusBarStyle: UIStatusBarStyle {
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
         return self.statusBarStyle
     }
 

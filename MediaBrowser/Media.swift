@@ -12,13 +12,13 @@ import AssetsLibrary
 import Photos
 import SDWebImage
 
-let MEDIA_LOADING_DID_END_NOTIFICATION  = "MEDIA_LOADING_DID_END_NOTIFICATION"
-let MEDIA_PROGRESS_NOTIFICATION  = "MEDIA_PROGRESS_NOTIFICATION"
+public let MEDIA_LOADING_DID_END_NOTIFICATION  = "MEDIA_LOADING_DID_END_NOTIFICATION"
+public let MEDIA_PROGRESS_NOTIFICATION  = "MEDIA_PROGRESS_NOTIFICATION"
 
 var PHInvalidImageRequestID = PHImageRequestID(0)
 
 /// Media is object for photo and video
-public class Media: NSObject {
+open class Media: NSObject {
     
     /// caption
     public var caption = ""
@@ -35,11 +35,11 @@ public class Media: NSObject {
 
     private let uuid = NSUUID().uuidString
     private var image: UIImage?
-    private var photoURL: URL?
+    public var photoURL: URL?
     private var asset: PHAsset?
     private var assetTargetSize = CGSize.zero
     
-    private var loadingInProgress = false
+    public var loadingInProgress = false
     private var operation: SDWebImageOperation?
     private var assetRequestID = PHInvalidImageRequestID
     
@@ -136,7 +136,7 @@ public class Media: NSObject {
     }
 
     //MARK: - Photo Protocol Methods
-    func loadUnderlyingImageAndNotify() {
+    open func loadUnderlyingImageAndNotify() {
         assert(Thread.current.isMainThread, "This method must be called on the main thread.")
         
         if loadingInProgress {
@@ -145,22 +145,15 @@ public class Media: NSObject {
         
         loadingInProgress = true
         
-        //try {
-            if underlyingImage != nil {
-                imageLoadingComplete()
-            } else {
-                performLoadUnderlyingImageAndNotify()
-            }
-        //}
-        //catch (NSException exception) {
-        //    underlyingImage = nil
-        //    loadingInProgress = false
-        //    imageLoadingComplete()
-        //}
+        if underlyingImage != nil {
+            imageLoadingComplete()
+        } else {
+            performLoadUnderlyingImageAndNotify()
+        }
     }
 
     // Set the underlyingImage
-    func performLoadUnderlyingImageAndNotify() {
+    public func performLoadUnderlyingImageAndNotify() {
         // Get underlying image
         if let img = image {
             // We have UIImage!
@@ -288,7 +281,7 @@ public class Media: NSObject {
         underlyingImage = nil
     }
 
-    private func imageLoadingComplete() {
+    public func imageLoadingComplete() {
         assert(Thread.current.isMainThread, "This method must be called on the main thread.")
         
         // Complete so notify
