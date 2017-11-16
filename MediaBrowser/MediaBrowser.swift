@@ -612,6 +612,9 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             jumpToPageAtIndex(index: pageIndexBeforeRotation, animated: false)
         }
         
+// FIXME       if #available(iOS 11.0, *) {
+//            layoutVisiblePages()
+//        }
         self.view.setNeedsLayout()
     }
 
@@ -757,7 +760,13 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
     /// viewWillLayoutSubviews
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        layoutVisiblePages()
+        
+//        if #available(iOS 11.0, *) { //FIXME
+//            //do nothing
+//        }
+//        else {
+            layoutVisiblePages()
+//        }
     }
 
     func layoutVisiblePages() {
